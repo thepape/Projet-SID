@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="" />
+        <meta name="keywords" content="modal, window, overlay, modern, box, css transition, css animation " />
+
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <title>Projet SID</title>
+    </head>
+	<body>
+
+		<h1>Taux de réussite</h1>
+
+		<form>
+			Ville : <input id="input_ville" type="text" name="ville">
+			<br/>
+			<select name="filiere" id="input_filiere">
+				<option selected/>L
+				<option/>ES
+				<option/>S
+				<option/>STMG
+				<option/>STI2D
+				<option/>STD2A
+				<option/>STL
+				<option/>ST2S
+				<option/>Musiq Danse
+				<option/>Hotellerie
+			</select>
+		</form>
+
+		<button onclick="update()">Chercher</button>
+		<br>
+
+		<svg id="graphique" width="600" height="500"></svg>
+		<ul id="legende">
+
+		</ul>	
+		
+
+		<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript" src="js/d3.min.js"></script>
+		
+		<script>
+
+		function getRandomColor() {
+		    var letters = '0123456789ABCDEF';
+		    var color = '#';
+		    for (var i = 0; i < 6; i++ ) {
+		        color += letters[Math.floor(Math.random() * 16)];
+		    }
+		    return color;
+		}
+
+
+		function update(){
+			//on recupere le parametre ville
+			var ville = $("#input_ville").val();
+			var filiere = $("#input_filiere").val();
+
+			var url = "services/reussite-courbes.php?filiere="+filiere;
+
+			if(ville != ""){
+				url += "&ville="+ville;
+			}
+
+			console.log(url);
+			$.get(url, function(data){
+			
+				
+
+				/////////////   construction du graphique
+				d3.selectAll("#graphique > *").remove();
+				$("#legende").empty();
+
+				var graphique = d3.select("#graphique");
+				var WIDTH = 600;
+				var	HEIGHT = 500;
+				var	MARGINS = {
+						top: 20,
+						right: 20,
+						bottom: 20,
+						left: 50
+					};
+
+					var scale = d3.scale;
+					//console.log(d3.scaleLinear());
+
+				//// axes
+
+				var xScale = d3.scaleLinear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([2012,2015]);
+				var yScale = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0,100]);
+
+				var xAxis = d3.axisBottom()
+					.scale(xScale)
+					.ticks(4);
+				var yAxis = d3.axisLeft().scale(yScale);
+
+				graphique.append("svg:g")
+					.attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+					.call(xAxis);
+
+
+				graphique.append("svg:g")
+					.attr("transform", "translate(" + (MARGINS.left) + ",0)")
+					.call(yAxis);
+
+
+
+				///////////////////////////////////// lignes de dizaines
+
+
+				var listeAnnees = [2012,2013,2014,2015];
+
+				console.log(data[filiere]);
+
+				for(var i=10; i <= 100; i+=10){
+					var lineDizaine = d3.line()
+							.x(function(d){
+								return xScale(d);
+							})
+							.y(function(d){
+								return yScale(i);
+							})
+
+					graphique.append("svg:path")
+							.attr("d", lineDizaine(listeAnnees))
+							.attr("stroke","black")
+							.attr("stroke-width", 0.1)
+							.attr("fill","none");
+				}
+
+
+
+				//////////////////////////////////////////////// courbes
+
+
+				var legende = new Array();
+
+				//on dessine une courbe pour chaque lycée
+				for(var key in data[filiere]){
+					if(data[filiere].hasOwnProperty(key)){
+						var objet = data[filiere][key];
+						var nom_lycee = key;
+						var couleur_lycee = getRandomColor();
+						var tableau = new Array();
+						var i = 0;
+
+						legende[legende.length] = {
+							lycee: nom_lycee,
+							couleur: couleur_lycee
+						};
+
+						//transformation de l'objet en tableau
+						for(var annee in objet){
+							if(objet.hasOwnProperty(annee)){
+								tableau[i] = {
+									year: annee,
+									rate: objet[annee]
+								};
+								i++;
+							}
+						}
+
+						console.log(tableau);
+
+						var line = d3.line()
+							.x(function(d){
+								return xScale(d.year);
+							})
+							.y(function(d){
+								return yScale(d.rate);
+							})
+
+						graphique.append("svg:path")
+							.attr("d", line(tableau))
+							.attr("stroke",couleur_lycee)
+							.attr("stroke-width", 2)
+							.attr("fill","none");
+
+						
+						$("#legende").append('<li style="color:'+couleur_lycee+'">'+nom_lycee+'</li>');
+					}
+				}
+
+
+			}, "json");
+		}
+		
+		
+            
+		</script>
+	</body>
+</html>
