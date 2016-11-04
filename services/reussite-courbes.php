@@ -56,16 +56,18 @@ while($ligne = $reponse->fetch()){
     if(!isset($listeFilieres[$f])){
         $listeFilieres[$f] = array();
     }
-    
-    $annee = $ligne["annee"];
-    
-    if(!isset($listeFilieres[$f][$annee])){
-        $listeFilieres[$f][$annee] = array();
+
+    //le niveau 2 concerne les lycees
+    $lycee = $ligne["nom_etablissement"];
+
+    if(!isset($listeFilieres[$f][$lycee])){
+        $listeFilieres[$f][$lycee] = array();
     }
     
-    $lycee = $ligne["nom_etablissement"];
+    //niveau 3 : taux pour chaque année
+    $annee = $ligne["annee"];
     
-    $listeFilieres[$f][$annee][$lycee] = $ligne["tx_brut_reussite"];
+    $listeFilieres[$f][$lycee][$annee] = $ligne["tx_brut_reussite"];
     
 }
 
