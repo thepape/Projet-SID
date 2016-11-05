@@ -7,8 +7,7 @@ Fournir des éléments aidant les parents à choisir le meilleur lycée pour leu
 - Alexandre GINGEMBRE
 - Mathieu MOUROT
 - Arthur MOUREY
-- Romain Papelier
-
+- Romain PAPELIER
 
 
 #### BDD :
