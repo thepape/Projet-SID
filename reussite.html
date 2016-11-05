@@ -9,41 +9,87 @@
 
         <link rel="stylesheet" href="css/bootstrap.css">
         <title>Projet SID</title>
+        <style>
+	      html, body {
+	        height: 100%;
+	        margin: 0;
+	        padding: 0;
+	      }
+	      #map {
+	        height: 100%;
+	      }
+   		</style>
     </head>
 	<body>
+		<div>
+			<h1>Taux de réussite</h1>
 
-		<h1>Taux de réussite</h1>
+			<form>
+				Ville : <input id="input_ville" type="text" name="ville">
+				<br/>
+				<select name="filiere" id="input_filiere">
+					<option selected/>L
+					<option/>ES
+					<option/>S
+					<option/>STMG
+					<option/>STI2D
+					<option/>STD2A
+					<option/>STL
+					<option/>ST2S
+					<option/>Musiq Danse
+					<option/>Hotellerie
+				</select>
+			</form>
 
-		<form>
-			Ville : <input id="input_ville" type="text" name="ville">
-			<br/>
-			<select name="filiere" id="input_filiere">
-				<option selected/>L
-				<option/>ES
-				<option/>S
-				<option/>STMG
-				<option/>STI2D
-				<option/>STD2A
-				<option/>STL
-				<option/>ST2S
-				<option/>Musiq Danse
-				<option/>Hotellerie
-			</select>
-		</form>
+			<button onclick="afficherData()">Chercher</button>
+			<br>
 
-		<button onclick="update()">Chercher</button>
-		<br>
+			<svg id="graphique" width="600" height="500"></svg>
+			<ul id="legende">
 
-		<svg id="graphique" width="600" height="500"></svg>
-		<ul id="legende">
-
-		</ul>	
-		
-
+			</ul>	
+		</div>
+		<div id="map"></div>
 		<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 		<script type="text/javascript" src="js/d3.min.js"></script>
 		
 		<script>
+		var geocoder;
+		var map;
+			function initMap() {
+			  geocoder = new google.maps.Geocoder();
+			  map = new google.maps.Map(document.getElementById('map'), {
+			    center: {lat: -34.397, lng: 150.644},
+			    zoom: 6
+			  });
+			  var infoWindow = new google.maps.InfoWindow({map: map});
+
+			  // Try HTML5 geolocation.
+			  if (navigator.geolocation) {
+			    navigator.geolocation.getCurrentPosition(function(position) {
+			      var pos = {
+			        lat: position.coords.latitude,
+			        lng: position.coords.longitude
+			      };
+
+			      infoWindow.setPosition(pos);
+			      infoWindow.setContent('Location found.');
+			      map.setCenter(pos);
+			    }, function() {
+			      handleLocationError(true, infoWindow, map.getCenter());
+			    });
+			  } else {
+			    // Browser doesn't support Geolocation
+			    handleLocationError(false, infoWindow, map.getCenter());
+			  }
+			}
+
+			function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+			  infoWindow.setPosition(pos);
+			  infoWindow.setContent(browserHasGeolocation ?
+			                        'Error: The Geolocation service failed.' :
+			                        'Error: Your browser doesn\'t support geolocation.');
+			}
 
 		function getRandomColor() {
 		    var letters = '0123456789ABCDEF';
@@ -55,10 +101,17 @@
 		}
 
 
+		function afficherData()
+		{
+			update();
+			geocodeAddress();
+		}
+
 		function update(){
 			//on recupere le parametre ville
 			var ville = $("#input_ville").val();
 			var filiere = $("#input_filiere").val();
+			
 
 			var url = "services/reussite-courbes.php?filiere="+filiere;
 
@@ -67,6 +120,7 @@
 			}
 
 			console.log(url);
+			$.ajaxSetup({async: false});
 			$.get(url, function(data){
 			
 				
@@ -138,6 +192,7 @@
 
 
 				var legende = new Array();
+				
 
 				//on dessine une courbe pour chaque lycée
 				for(var key in data[filiere]){
@@ -164,8 +219,7 @@
 							}
 						}
 
-						console.log(tableau);
-
+			
 						var line = d3.line()
 							.x(function(d){
 								return xScale(d.year);
@@ -187,10 +241,39 @@
 
 
 			}, "json");
+			
+			
+			
 		}
 		
-		
+		function geocodeAddress() {
+		var lis=document.getElementById('legende').getElementsByTagName("li");
+		for(var i=0; i<lis.length; i++)
+		{
+			var address = lis[i].innerHTML.slice(6, lis[i].length) + " "+ document.getElementById('input_ville').value + " FRANCE";
+			console.log(address);
+		  geocoder.geocode({'address': address}, function(results, status) {
+		    if (status === google.maps.GeocoderStatus.OK) {
+		      map.setCenter(results[0].geometry.location);
+		      var marker = new google.maps.Marker({
+		        map: map,
+		        position: results[0].geometry.location
+		      });
+		    } else {
+		      alert('Geocode was not successful for the following reason: ' + status);
+		    }
+		  });
+
+		}
+		$.ajaxSetup({async: true});
+		  
+		}
+				
             
 		</script>
+		   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRuW3knlFEc7XBxMchvK52XhSDmxXfRNs&signed_in=true&callback=initMap"
+        async defer>
+    </script>
+
 	</body>
 </html>
