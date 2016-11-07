@@ -8,7 +8,7 @@ class Connecteur{
         $host = "localhost";
         $dbname = "projet_sid";
         $user = "root";
-        $mdp = "";
+        $mdp = "root";
         
         
         $this->pdo = new PDO('mysql:host='. $host . ';dbname='.$dbname.';charset=utf8', $user, $mdp);
