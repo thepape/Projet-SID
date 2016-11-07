@@ -87,6 +87,7 @@ $RECYCLE.BIN/
 
 # Mongo Explorer plugin:
 .idea/mongoSettings.xml
+.idea/*
 
 ## File-based project format:
 *.iws
