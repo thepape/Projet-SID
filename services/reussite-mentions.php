@@ -8,11 +8,14 @@ $pdo = $connecteur->getPDO();
 ////// RECUPERATION DES FILTRES ////////
 $ville = null;
 $filiere = null;
+$annee = null;
 
 if(isset($_GET["ville"]))
     $ville = $_GET["ville"];
 if(isset($_GET["filiere"]))
     $filiere = $_GET["filiere"];
+if(isset($_GET["annee"]))
+    $annee = $_GET["annee"];
 
 ///// ECRITURE REQUETE /////////
 
@@ -23,12 +26,20 @@ $requete = ' SELECT nom_etablissement, ville_etablissement, nom_filiere, session
 
 $params = 0;
 
-if($ville != null || $filiere != null){
+if($ville != null || $filiere != null || $annee != null){
     $requete .= " WHERE ";
 }
 
 if($ville != null){
     $requete .= ' ( ville_etablissement = "'. strtoupper($ville) .'" OR ville_etablissement = "'. strtoupper($ville).' CEDEX" ) ';
+    $params++;
+}
+
+if($annee != null){
+    if($params>0){
+        $requete .= " AND ";
+    }
+    $requete .= 'session.annee = '. $annee;
     $params++;
 }
 
