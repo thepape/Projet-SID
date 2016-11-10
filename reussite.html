@@ -12,37 +12,34 @@
         <title>Projet SID</title>
     </head>
 	<body>
-		<div id="div_graphiques">
-			<h1>Taux de réussite</h1>
+		<h1 id="title">Taux de réussite</h1>
+			<div id="div_graphiques">
+					<form>
+						Ville : <input id="input_ville" type="text" name="ville">
+						<select name="filiere" id="input_filiere">
+							<option selected/>L
+							<option/>ES
+							<option/>S
+							<option/>STMG
+							<option/>STI2D
+							<option/>STD2A
+							<option/>STL
+							<option/>ST2S
+							<option/>Musiq Danse
+							<option/>Hotellerie
+						</select>
+					</form>
 
-			<form>
-				Ville : <input id="input_ville" type="text" name="ville">
-				<br/>
-				<select name="filiere" id="input_filiere">
-					<option selected/>L
-					<option/>ES
-					<option/>S
-					<option/>STMG
-					<option/>STI2D
-					<option/>STD2A
-					<option/>STL
-					<option/>ST2S
-					<option/>Musiq Danse
-					<option/>Hotellerie
-				</select>
-			</form>
+				<button onclick="afficherData()">Chercher</button>
 
-			<button onclick="afficherData()">Chercher</button>
-			<br>
+				</div>
+				<svg id="graphique" width="600" height="500"></svg>
+				<ul id="legende"></ul>	
+			
 
-			<svg id="graphique" width="600" height="500"></svg>
-			<ul id="legende">
+		<div id="map"></div>
 
-			</ul>	
-		</div>
-		<div id="map">
-
-		</div>
+		
 		<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 		<script type="text/javascript" src="js/d3.min.js"></script>
 		

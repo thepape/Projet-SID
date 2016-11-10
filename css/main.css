@@ -10,8 +10,15 @@ html, body {
           padding: 0px;
         }
 
-#div_graphiques{
-  max-width: 600px;
-  display: inline-block;
+h1#title{
+  margin: 0px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: white;
+  background-color: CornFlowerBlue;
 }
 
+#map{
+  margin-top: -40%;
+  margin-left: 60%;
+}
