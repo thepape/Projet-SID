@@ -1,0 +1,17 @@
+html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+        }
+        #map {
+          height: 500px;
+          width: 500px;
+          margin: 0px;
+          padding: 0px;
+        }
+
+#div_graphiques{
+  max-width: 600px;
+  display: inline-block;
+}
+
