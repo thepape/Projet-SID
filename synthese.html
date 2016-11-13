@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="" />
+        <meta name="keywords" content="modal, window, overlay, modern, box, css transition, css animation " />
+
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/main.css">
+        <title>Projet SID</title>
+    </head>
+	<body>
+		<div id="div_graphiques">
+			<h1>Synthese</h1>
+
+			<form>
+				Ville : <input id="input_ville" type="text" name="ville">
+				<br/>
+				Année : <select name="anneee" id="input_annee">
+					<option selected/>2015
+					<option/>2014
+					<option/>2013
+					<option/>2012
+				</select>
+				<br/>
+				Filière : <select name="filiere" id="input_filiere">
+					<option selected/>L
+					<option/>ES
+					<option/>S
+					<option/>STMG
+					<option/>STI2D
+					<option/>STD2A
+					<option/>STL
+					<option/>ST2S
+					<option/>Musiq Danse
+					<option/>Hotellerie
+				</select>
+			</form>
+
+			<button onclick="afficherData()">Chercher</button>
+			<br>
+
+			<p>X : taux d'accès <br>Y : taux de réussite</p>
+
+			<svg id="graphique" width="1000" height="700"></svg>
+			<ul id="legende">
+
+			</ul>	
+		</div>
+		<div id="map">
+
+		</div>
+		<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript" src="js/d3.min.js"></script>
+		
+		<script>
+
+
+		
+
+
+		function afficherData()
+		{
+			//initMap();
+			getData();
+			//geocodeAddress();
+		}
+
+		
+
+				
+            
+		</script>
+		   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRuW3knlFEc7XBxMchvK52XhSDmxXfRNs&signed_in=true"
+        async defer>
+    </script>
+		<script type="text/javascript" src="js/map.js"></script>
+		<script type="text/javascript" src="js/synthese.js"></script>
+
+	</body>
+</html>
