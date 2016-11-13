@@ -13,6 +13,35 @@ function getReussiteColorScale(taux_reussite, min, max){
 	return rgb_object;
 }
 
+function getColor(indice){
+	colors = [ 
+		"D00000",
+		"F65700",
+		"FFBC00",
+		"FFFF34",
+		"94D200",
+		"30A71C",
+		"00A86B",
+		"0057A8",
+		"3B00A8",
+		"AC00DD",
+		"DD00A6",
+		"FF4076",
+
+		"692323",
+		"332217",
+		"C3B15D",
+		"3C643C",
+		"5FD9A7",
+		"5F81A0",
+		"5D578A",
+		"47344C",
+		"560028"
+	];
+
+	return "#"+colors[indice];
+}
+
 function getLastReussite(resLycee){
 	
     var array = $.map(resLycee, function(value, index) {
@@ -44,6 +73,36 @@ function getMinReussite(lycees, annee){
     return min;
 }
 
+function getMinReussite(lycees){
+	var min = 100;
+
+	for(var key in lycees){
+        if(!lycees.hasOwnProperty(key)){
+            continue;
+        }
+
+        var nom_lycee = key;
+
+        for(var an in lycees[nom_lycee]){
+        	if(!lycees[nom_lycee].hasOwnProperty(an)){
+        		continue;
+        	}
+        	var taux = parseInt(lycees[nom_lycee][an]+"");
+
+        	if(taux < min){
+	        	min = taux;
+
+	        }
+        }
+        
+
+        
+        
+    }
+
+    return min;
+}
+
 function constructLineChart(data){
 	var ville = $("#input_ville").val();
     var filiere = $("#input_filiere").val();
@@ -51,6 +110,9 @@ function constructLineChart(data){
 	/////////////   construction du graphique
 				d3.selectAll("#graphique > *").remove();
 				$("#legende").empty();
+
+
+				var min_rate = getMinReussite(data[filiere]);
 
 				var graphique = d3.select("#graphique");
 				var WIDTH = 600;
@@ -114,6 +176,7 @@ function constructLineChart(data){
 
 
 				var legende = new Array();
+				var indice_couleur = 0;
 				
 
 				//on dessine une courbe pour chaque lycée
@@ -121,7 +184,8 @@ function constructLineChart(data){
 					if(data[filiere].hasOwnProperty(key)){
 						var objet = data[filiere][key];
 						var nom_lycee = key;
-						var couleur_lycee = getRandomColor();
+						var couleur_lycee = getColor(indice_couleur);
+						indice_couleur++;
 						var tableau = new Array();
 						var i = 0;
 
