@@ -11,7 +11,17 @@ html, body {
         }
 
 #div_graphiques{
-  max-width: 600px;
+  width: 100%;
   display: inline-block;
 }
 
+#graphique{
+  display: inline-block;
+}
+
+#legende{
+  width: 400px;
+  margin: 0px;
+  display: inline-block;
+  vertical-align: top;
+}
