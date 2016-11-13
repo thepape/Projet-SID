@@ -10,6 +10,7 @@ html, body {
           padding: 0px;
         }
 
+
 #div_graphiques{
   width: 100%;
   display: inline-block;
@@ -24,4 +25,16 @@ html, body {
   margin: 0px;
   display: inline-block;
   vertical-align: top;
+}
+h1#title{
+  margin: 0px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: white;
+  background-color: CornFlowerBlue;
+}
+
+#map{
+  margin-top: -40%;
+  margin-left: 60%;
 }
