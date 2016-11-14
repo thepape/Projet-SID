@@ -51,6 +51,20 @@ function getLastReussite(resLycee){
 	return array[array.length-1];
 }
 
+function getLastYear(Lycee){
+	var year = 0;
+
+	for(annee in Lycee){
+		if(!Lycee.hasOwnProperty(annee)){
+			continue;
+		}
+
+		if(annee > year){
+			year = annee;
+		}
+	}
+}
+
 function getMinReussite(lycees, annee){
 	var min = 100;
 
@@ -184,10 +198,13 @@ function constructLineChart(data){
 					if(data[filiere].hasOwnProperty(key)){
 						var objet = data[filiere][key];
 						var nom_lycee = key;
-						var couleur_lycee = getColor(indice_couleur);
+						var couleur_lycee = getRandomColor();
 						indice_couleur++;
 						var tableau = new Array();
 						var i = 0;
+
+						var last_year = 0;
+						var last_result = 0;
 
 						legende[legende.length] = {
 							lycee: nom_lycee,
@@ -201,9 +218,14 @@ function constructLineChart(data){
 									year: annee,
 									rate: objet[annee]
 								};
+
+								last_year = annee;
+								last_result = objet[annee];
+
 								i++;
 							}
 						}
+
 
 			
 						var line = d3.line()
@@ -220,8 +242,17 @@ function constructLineChart(data){
 							.attr("stroke-width", 2)
 							.attr("fill","none");
 
+						graphique.append("text")
+							.attr("x", xScale(last_year)+7)
+							.attr("y",yScale(last_result)+7)
+							.attr("font-size", 12)
+							.attr("fill", couleur_lycee)
+							.text(indice_couleur);
+
+							console.log(last_year+"-"+last_result);
+
 						
-						$("#legende").append('<li style="color:'+couleur_lycee+'">'+nom_lycee+'</li>');
+						$("#legende").append('<li style="color:'+couleur_lycee+'">'+indice_couleur+'-'+nom_lycee+'</li>');
 					}
 				}
 }
@@ -238,7 +269,6 @@ function getData(){
 				url += "&ville="+ville;
 			}
 
-			console.log(url);
 			$.ajaxSetup({async: false});
 			$.get(url, function(data){
 			
