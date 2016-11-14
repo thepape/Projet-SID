@@ -27,7 +27,7 @@ if($ville != null || $filiere != null){
 }
 
 if($ville != null){
-    $requete .= ' ( ville_etablissement = "'. strtoupper($ville) .'" OR ville_etablissement = "'. strtoupper($ville).' CEDEX" ) ';
+    $requete .= ' ( ville_etablissement LIKE "'. strtoupper($ville) .'%" ) ';
     $params++;
 }
 
