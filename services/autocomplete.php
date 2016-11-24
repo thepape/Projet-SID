@@ -14,7 +14,7 @@ if(isset($_GET["term"]))
 
 ///// ECRITURE REQUETE /////////
 
-$requete = " SELECT DISTINCT ville_etablissement FROM Etablissement where ville_etablissement LIKE '%" . $ville . "%' ";
+$requete = " SELECT DISTINCT nom_ville FROM Ville where nom_ville LIKE '%" . $ville . "%' ";
 
 
 
@@ -31,7 +31,7 @@ $inc = 0;
 
 while($ligne = $reponse->fetch()){
 
-    $liste[$inc]= $ligne["ville_etablissement"];
+    $liste[$inc]= $ligne["nom_ville"];
     $inc++;
 }
 
