@@ -16,9 +16,10 @@ if(isset($_GET["filiere"]))
 
 ///// ECRITURE REQUETE /////////
 
-$requete = ' SELECT nom_etablissement, ville_etablissement, nom_filiere, annee, tx_brut_reussite FROM Session ' .
+$requete = ' SELECT nom_etablissement, nom_ville, nom_filiere, annee, tx_brut_reussite FROM Session ' .
 ' INNER JOIN Etablissement on etablissement.id_etablissement = session.id_etablissement' . 
-' inner join Filiere  on filiere.id_filiere = session.id_filiere ';
+' inner join Filiere  on filiere.id_filiere = session.id_filiere '.
+' inner join Ville on etablissement.id_ville = ville.id_ville ';
 
 $params = 0;
 
@@ -27,7 +28,7 @@ if($ville != null || $filiere != null){
 }
 
 if($ville != null){
-    $requete .= ' ( ville_etablissement LIKE "'. strtoupper($ville) .'%" ) ';
+    $requete .= ' ( nom_ville LIKE "'. strtoupper($ville) .'%" ) ';
     $params++;
 }
 
