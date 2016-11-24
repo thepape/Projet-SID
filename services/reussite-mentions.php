@@ -22,7 +22,8 @@ if(isset($_GET["annee"]))
 $requete = ' SELECT nom_etablissement, ville_etablissement, nom_filiere, session.annee, tx_mention_AB, tx_mention_B, tx_mention_TB FROM Session ' .
 ' INNER JOIN Etablissement on etablissement.id_etablissement = session.id_etablissement' . 
 ' inner join Filiere  on filiere.id_filiere = session.id_filiere '.
-' inner join InfoEtab on etablissement.id_etablissement=infoetab.id_etablissement';
+' inner join InfoEtab on etablissement.id_etablissement=infoetab.id_etablissement'.
+' inner join Ville on etablissement.id_ville = ville.id_ville';
 
 $params = 0;
 
@@ -31,7 +32,7 @@ if($ville != null || $filiere != null || $annee != null){
 }
 
 if($ville != null){
-    $requete .= ' ( ville_etablissement = "'. strtoupper($ville) .'" OR ville_etablissement = "'. strtoupper($ville).' CEDEX" ) ';
+    $requete .= ' ( nom_ville = "'. strtoupper($ville) .'" OR nom_ville = "'. strtoupper($ville).' CEDEX" ) ';
     $params++;
 }
 
