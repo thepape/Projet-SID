@@ -21,15 +21,16 @@ if(isset($_GET["annee"]))
 
 ///// ECRITURE REQUETE /////////
 
-$requete = ' SELECT nom_etablissement, ville_etablissement, nom_filiere, session.annee, tx_brut_reussite, tx_acces_seconde, tx_acces_premiere, tx_acces_terminale FROM Session ' .
+$requete = ' SELECT nom_etablissement, nom_ville, nom_filiere, session.annee, tx_brut_reussite, tx_acces_seconde, tx_acces_premiere, tx_acces_terminale FROM Session ' .
 ' INNER JOIN Etablissement on etablissement.id_etablissement = session.id_etablissement' . 
 ' inner join Filiere  on filiere.id_filiere = session.id_filiere ' . 
-' INNER JOIN InfoEtab on session.id_etablissement = InfoEtab.id_etablissement';
+' INNER JOIN InfoEtab on session.id_etablissement = InfoEtab.id_etablissement'.
+' inner join Ville on etablissement.id_ville = ville.id_ville';
 
 $params = 0;
 
 if($ville != null && $filiere != null && $annee != null){
-    $requete .= ' WHERE  ( ville_etablissement LIKE "%'. strtoupper($ville) .'%" ) ' .
+    $requete .= ' WHERE  ( nom_ville LIKE "%'. strtoupper($ville) .'%" ) ' .
     ' AND nom_filiere = "' . $filiere . '"' .
     ' AND session.annee = ' . $annee;
     

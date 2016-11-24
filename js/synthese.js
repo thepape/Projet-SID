@@ -118,6 +118,8 @@ function getMinReussite(lycees){
 }
 
 function constructPointsChart(data){
+
+	
 	var ville = $("#input_ville").val();
     var niveau = $("#input_niveau").val();
 
@@ -269,7 +271,6 @@ function getData(){
 			$.ajaxSetup({async: false});
 			$.get(url, function(data){
 
-				console.log(data);
 			
 				////construction du linechart
 				constructPointsChart(data);
