@@ -16,8 +16,9 @@ if(isset($_GET["ville"]))
 
 
 
-$requete = ' SELECT nom_etablissement, ville_etablissement, annee, tx_acces_seconde, tx_acces_premiere, tx_acces_terminale FROM InfoEtab ' .
-' INNER JOIN Etablissement on etablissement.id_etablissement = InfoEtab.id_etablissement';
+$requete = ' SELECT nom_etablissement, nom_ville, annee, tx_acces_seconde, tx_acces_premiere, tx_acces_terminale FROM InfoEtab ' .
+' INNER JOIN Etablissement on etablissement.id_etablissement = InfoEtab.id_etablissement'. 
+' inner join Ville on etablissement.id_ville = ville.id_ville';
 
 $params = 0;
 
@@ -26,7 +27,7 @@ if($ville != null || $filiere != null){
 }
 
 if($ville != null){
-    $requete .= ' ( ville_etablissement = "'. strtoupper($ville) .'" OR ville_etablissement = "'. strtoupper($ville).' CEDEX" ) ';
+    $requete .= ' ( nom_ville = "'. strtoupper($ville) .'" OR nom_ville = "'. strtoupper($ville).' CEDEX" ) ';
     $params++;
 }
 
