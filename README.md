@@ -4,6 +4,7 @@ Fournir des éléments aidant les parents à choisir le meilleur lycée pour leu
 
 ### Développeurs :
 - Imène AMALOU
+- Moustapha DIALLO
 - Alexandre GINGEMBRE
 - Mathieu MOUROT
 - Arthur MOUREY
@@ -17,6 +18,9 @@ Fournir des éléments aidant les parents à choisir le meilleur lycée pour leu
   - Javascript
   - PHP
   - HTML5
+  
+#### Installation :
+- Modifier le fichier ```services/Connecteur.php``` pour vous connecter à votre base de données.
 
 ### Source données :
 - [Open Data, site gouvernemental](https://www.data.gouv.fr/fr/datasets/indicateurs-de-resultat-des-lycees-denseignement-general-et-technologique/) pour les données
